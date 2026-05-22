@@ -1,0 +1,36 @@
+{
+  "name": "@keeperhub/mcp-client",
+  "version": "1.0.0",
+  "description": "Official KeeperHub MCP transport client for TypeScript agent plugins",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "files": ["dist", "README.md", "package.json"],
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "test": "bun test",
+    "prepublishOnly": "bun run build"
+  },
+  "license": "MIT",
+  "author": "KeeperHub",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Bleyle823/Keepers-Eliza-Plugin.git",
+    "directory": "packages/mcp-client"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.0",
+    "bun-types": "^1.2.0",
+    "typescript": "^5.9.3"
+  }
+}

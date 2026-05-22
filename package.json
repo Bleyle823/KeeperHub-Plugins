@@ -1,0 +1,18 @@
+{
+  "name": "keeperhub-plugins-monorepo",
+  "private": true,
+  "license": "MIT",
+  "workspaces": [
+    "packages/mcp-client",
+    "openclaw-plugins/keeperHub",
+    "plugin-keeperHub"
+  ],
+  "scripts": {
+    "build:mcp-client": "cd packages/mcp-client && bun run build",
+    "build:eliza-plugin": "cd plugin-keeperHub && bun run build",
+    "test:mcp-client": "cd packages/mcp-client && bun test",
+    "test:openclaw": "cd openclaw-plugins/keeperHub && bun test",
+    "test:eliza-plugin": "cd plugin-keeperHub && bun test",
+    "test": "bun run test:mcp-client && bun run test:openclaw && bun run test:eliza-plugin"
+  }
+}
