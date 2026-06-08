@@ -41,7 +41,7 @@ async function build() {
             'node:*',
             '@elizaos/core',
             '@elizaos/cli',
-            '@keeperhub/mcp-client',
+            '@keeperhub/mcp',
             'zod',
           ],
           naming: {

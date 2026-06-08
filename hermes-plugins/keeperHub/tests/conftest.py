@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import pytest
 
-from keeperhub_mcp_client import reset_client_for_tests
+from keeperhub_mcp import reset_client_for_tests
 
 
 @pytest.fixture(autouse=True)

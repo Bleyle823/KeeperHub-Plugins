@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from typing import Any
 
-from keeperhub_mcp_client import get_client, get_api_key_kind_warning, mask_api_key
+from keeperhub_mcp import get_client, get_api_key_kind_warning, mask_api_key
 
 from keeperhub_plugin.config import SUPPORTED_ENV_VARS, resolve_api_key
 from keeperhub_plugin.tools_shared import CLIENT_NAME, CLIENT_VERSION, TOOLSET, ok_json

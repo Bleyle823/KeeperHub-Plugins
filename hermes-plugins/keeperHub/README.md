@@ -4,13 +4,13 @@ Hermes Agent Python plugin (**PyPI:** `keeperhub-hermes-plugin`) exposing **28 `
 against the KeeperHub MCP endpoint (`https://app.keeperhub.com/mcp`), aligned with
 [`@keeperhub/openclaw-plugin`](../../openclaw-plugins/keeperHub).
 
-Uses [`keeperhub-mcp-client`](../../packages/keeperhub-mcp-client) for MCP transport.
+Uses [`keeperhub-mcp`](https://pypi.org/project/keeperhub-mcp/) on PyPI for MCP transport.
 
 ## Requirements
 
 - Python **3.9+** (uses postponed annotations; Hermes itself may require a newer Python — check your install).
 - [Hermes Agent](https://hermes-agent.nousresearch.com/) with plugins enabled
-- Dependencies: **keeperhub-mcp-client**, **httpx** (declared in `pyproject.toml`)
+- Dependencies: **keeperhub-mcp** (PyPI; pulls in **httpx**)
 
 ## Install
 

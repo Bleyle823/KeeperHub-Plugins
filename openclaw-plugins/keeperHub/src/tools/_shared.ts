@@ -5,7 +5,7 @@
 import {
   getClient,
   type KeeperHubMcpClient,
-} from '@keeperhub/mcp-client';
+} from '@keeperhub/mcp';
 
 import { getApiKeyKindWarning, resolveApiKey } from '../config.js';
 

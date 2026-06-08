@@ -1,6 +1,6 @@
 # `@keeperhub/openclaw-plugin`
 
-Depends on [`@keeperhub/mcp-client`](../../packages/mcp-client) for MCP transport (session, `kh_`  key handling).
+Depends on [`@keeperhub/mcp`](https://www.npmjs.com/package/@keeperhub/mcp) for MCP transport (session, `kh_` key handling).
 
 KeeperHub workflow automation plugin for [OpenClaw](https://docs.openclaw.ai). Wraps the full KeeperHub MCP API as native OpenClaw agent tools so your OpenClaw agent can create, manage, and execute on-chain workflows, monitor smart contracts, and interact with DeFi protocols through natural language.
 

@@ -7,8 +7,8 @@ Official KeeperHub agent packages under the **`@keeperhub`** npm scope and
 
 | Package | Registry | Path |
 | --- | --- | --- |
-| `@keeperhub/mcp-client` | npm | [`packages/mcp-client`](packages/mcp-client) |
-| `keeperhub-mcp-client` | PyPI | [`packages/keeperhub-mcp-client`](packages/keeperhub-mcp-client) |
+| `@keeperhub/mcp` | npm | [KeeperHub/mcp](https://github.com/KeeperHub/mcp) (`packages/mcp`) |
+| `keeperhub-mcp` | PyPI | [`packages/keeperhub-mcp`](packages/keeperhub-mcp) |
 | `@keeperhub/eliza-plugin` | npm | [`plugin-keeperHub`](plugin-keeperHub) |
 | `@keeperhub/openclaw-plugin` | npm + [ClawHub](https://docs.openclaw.ai/tools/clawhub) | [`openclaw-plugins/keeperHub`](openclaw-plugins/keeperHub) |
 | `keeperhub-hermes-plugin` | PyPI | [`hermes-plugins/keeperHub`](hermes-plugins/keeperHub) |
@@ -16,33 +16,27 @@ Official KeeperHub agent packages under the **`@keeperhub`** npm scope and
 ## Prerequisites
 
 - npm org access: **`@keeperhub`**
-- PyPI project access: **`keeperhub-mcp-client`**, **`keeperhub-hermes-plugin`**
+- PyPI project access: **`keeperhub-mcp`**, **`keeperhub-hermes-plugin`**
 - ClawHub publisher account for OpenClaw (scoped name e.g. `@keeperhub/openclaw-plugin`)
 - `LICENSE` and `NOTICE` at repo root (included)
 
 ## 1. Publish MCP clients (required first)
 
-### TypeScript — `@keeperhub/mcp-client`
+### TypeScript — `@keeperhub/mcp`
+
+Published from [KeeperHub/mcp](https://github.com/KeeperHub/mcp). Release via PR + `npm-v*` tag (Trusted Publishing). Plugins depend on **`@keeperhub/mcp@^0.1.1`** from npm.
+
+### Python — `keeperhub-mcp`
 
 ```bash
-cd packages/mcp-client
-bun install
-bun run build
-bun test
-npm publish --access public
-```
-
-### Python — `keeperhub-mcp-client`
-
-```bash
-cd packages/keeperhub-mcp-client
+cd packages/keeperhub-mcp
 pip install build twine
 python -m build
 twine upload dist/*
 ```
 
 Before publishing plugins, change local `file:` / `workspace:*` deps on
-`@keeperhub/mcp-client` to **`^1.0.0`** (and `keeperhub-mcp-client>=1.0.0` in
+`@keeperhub/mcp` to **`^0.1.1`** (and `keeperhub-mcp>=0.1.1` in
 `pyproject.toml`).
 
 ## 2. Publish `@keeperhub/eliza-plugin`
@@ -52,7 +46,7 @@ From [`plugin-keeperHub`](plugin-keeperHub) (or the same tree vendored as
 
 ```bash
 cd plugin-keeperHub
-# Ensure @keeperhub/mcp-client is published and listed as ^1.0.0 in package.json
+# Ensure @keeperhub/mcp is published and listed as ^0.1.1 in package.json
 # (@elizaos/core stays a peerDependency — not bundled)
 bun install
 bun run build
@@ -89,7 +83,7 @@ authenticated publish/sync.
 
 ```bash
 cd hermes-plugins/keeperHub
-# pyproject.toml: keeperhub-mcp-client>=1.0.0 (not file:)
+# pyproject.toml: keeperhub-mcp>=0.1.1 (not file:)
 pip install build twine
 python -m build
 twine upload dist/*
@@ -109,14 +103,13 @@ From repository root:
 
 ```bash
 bun install
-bun run build:mcp-client
 bun test
-cd packages/keeperhub-mcp-client && pip install -e ".[dev]" && pytest
+cd packages/keeperhub-mcp && pip install -e ".[dev]" && pytest
 cd ../../hermes-plugins/keeperHub && pip install -e ".[dev]" && pytest
 ```
 
-Workspaces in root [`package.json`](package.json): `packages/mcp-client`,
-`openclaw-plugins/keeperHub`, `plugin-keeperHub`.
+Workspaces in root [`package.json`](package.json): `openclaw-plugins/keeperHub`,
+`plugin-keeperHub`. MCP transport is **`@keeperhub/mcp`** from npm (not vendored here).
 
 ## Deprecated package names
 
@@ -132,4 +125,4 @@ OpenClaw config plugin id remains **`keeperHub`** (`plugins.entries.keeperHub`).
 ## Versioning
 
 - **1.0.0** — initial scoped releases after MCP client extraction
-- Bump **mcp-client** first when transport behavior changes; then bump plugins
+- Bump **`@keeperhub/mcp`** first when transport behavior changes; then bump plugins

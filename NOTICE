@@ -2,7 +2,7 @@ KeeperHub Agent Plugins
 Copyright (c) 2026 KeeperHub
 
 This project includes agent integrations for ElizaOS, OpenClaw, and Hermes Agent,
-plus shared MCP transport libraries (@keeperhub/mcp-client, keeperhub-mcp-client).
+plus shared MCP transport libraries (@keeperhub/mcp, keeperhub-mcp).
 
 Portions of the plugin implementations were originally developed for a KeeperHub
 hackathon and community integration effort. See repository commit history and
