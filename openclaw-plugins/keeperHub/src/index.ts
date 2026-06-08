@@ -58,6 +58,5 @@ export {
   KeeperHubClient,
   KeeperHubMcpClient,
   getClient,
-  __resetClientForTests,
-} from '@keeperhub/mcp-client';
+} from '@keeperhub/mcp';
 export { resolveApiKey, isLikelyValidApiKey, SUPPORTED_ENV_VARS } from './config.js';

@@ -38,7 +38,7 @@
     "@elizaos/core": ">=1.0.0"
   },
   "dependencies": {
-    "@keeperhub/mcp-client": "workspace:*",
+    "@keeperhub/mcp": "^0.1.1",
     "zod": "^4.3.5"
   },
   "devDependencies": {

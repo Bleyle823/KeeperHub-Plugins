@@ -1,8 +1,8 @@
-"""Resolve KeeperHub API key — delegates to keeperhub-mcp-client."""
+"""Resolve KeeperHub API key — delegates to keeperhub-mcp."""
 
 from __future__ import annotations
 
-from keeperhub_mcp_client.keys import (
+from keeperhub_mcp.keys import (
     ENV_VAR_NAMES,
     ORG_KEY_HINT,
     SUPPORTED_ENV_VARS,

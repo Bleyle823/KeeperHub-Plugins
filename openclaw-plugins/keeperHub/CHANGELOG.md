@@ -10,7 +10,7 @@ All notable changes to the OpenClaw KeeperHub plugin (`openclaw-plugins/keeperHu
 
 - **npm package renamed** to `@keeperhub/openclaw-plugin` (was `openclaw-keeperHub`).
 - **ClawHub install:** `openclaw plugins install @keeperhub/openclaw-plugin`.
-- MCP transport moved to **`@keeperhub/mcp-client`**; `kh_` / `wfb_` key validation per KeeperHub API Keys docs.
+- MCP transport moved to **`@keeperhub/mcp`**; `kh_` / `wfb_` key validation per KeeperHub API Keys docs.
 
 ---
 

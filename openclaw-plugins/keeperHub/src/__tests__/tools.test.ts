@@ -11,9 +11,27 @@
  */
 
 import { afterEach, beforeEach, describe, expect, it } from 'bun:test';
+
+const ENV_KEYS = ['KH_API_KEY', 'KEEPERHUB_API_KEY'] as const;
+let savedEnv: Partial<Record<(typeof ENV_KEYS)[number], string>> = {};
+
+beforeEach(() => {
+  savedEnv = {};
+  for (const key of ENV_KEYS) {
+    savedEnv[key] = process.env[key];
+    delete process.env[key];
+  }
+});
+
+afterEach(() => {
+  for (const key of ENV_KEYS) {
+    if (savedEnv[key] === undefined) delete process.env[key];
+    else process.env[key] = savedEnv[key]!;
+  }
+});
 import { Value } from '@sinclair/typebox/value';
 
-import { __resetClientForTests, KeeperHubMcpClient } from '@keeperhub/mcp-client';
+import { KeeperHubMcpClient } from '@keeperhub/mcp';
 import { looksLikeWorkflowId, registerMarketplaceTools } from '../tools/marketplace.js';
 import { registerWorkflowTools } from '../tools/workflows.js';
 import { registerExecutionTools } from '../tools/execution.js';
@@ -26,7 +44,9 @@ interface CapturedTool {
   execute: (id: string, params: unknown) => Promise<unknown>;
 }
 
-function makeFakeApi(opts: { apiKey?: string } = {}) {
+let testApiKeySeq = 0;
+
+function makeFakeApi(opts: { apiKey?: string; noApiKey?: boolean } = {}) {
   const tools: CapturedTool[] = [];
   const logs: Array<{ level: string; args: unknown[] }> = [];
   const logger = {
@@ -35,11 +55,12 @@ function makeFakeApi(opts: { apiKey?: string } = {}) {
     warn: (...args: unknown[]) => logs.push({ level: 'warn', args }),
     error: (...args: unknown[]) => logs.push({ level: 'error', args }),
   };
+  const apiKey = opts.noApiKey ? undefined : (opts.apiKey ?? `kh_test_${++testApiKeySeq}`);
   const api = {
     id: 'keeperHub',
     name: 'KeeperHub',
     config: {},
-    pluginConfig: opts.apiKey ? { apiKey: opts.apiKey } : {},
+    pluginConfig: apiKey ? { apiKey } : {},
     logger,
     registrationMode: 'full',
     registerTool(tool: CapturedTool) {
@@ -86,9 +107,6 @@ function withFakeClient<T>(client: FakeClient, fn: () => Promise<T>): Promise<T>
       KeeperHubMcpClient.prototype.callTool = original;
     });
 }
-
-beforeEach(() => __resetClientForTests());
-afterEach(() => __resetClientForTests());
 
 describe('registerWorkflowTools', () => {
   it('registers all 7 workflow tools with valid TypeBox parameter schemas', () => {
@@ -156,9 +174,7 @@ describe('registerWorkflowTools', () => {
   });
 
   it('returns isError when no api key is configured', async () => {
-    const { api, tools } = makeFakeApi();
-    delete process.env.KH_API_KEY;
-    delete process.env.KEEPERHUB_API_KEY;
+    const { api, tools } = makeFakeApi({ noApiKey: true });
     registerWorkflowTools(api);
     const list = tools.find((t) => t.name === 'kh_list_workflows')!;
 
@@ -254,9 +270,7 @@ describe('registerMarketplaceTools', () => {
 
 describe('registerStatusTool', () => {
   it('reports NOT CONNECTED when no api key is configured', async () => {
-    const { api, tools } = makeFakeApi();
-    delete process.env.KH_API_KEY;
-    delete process.env.KEEPERHUB_API_KEY;
+    const { api, tools } = makeFakeApi({ noApiKey: true });
     registerStatusTool(api);
     const status = tools.find((t) => t.name === 'kh_status')!;
 

@@ -1,10 +1,10 @@
 {
   "name": "@keeperhub/mcp-client",
   "version": "1.0.0",
-  "description": "Official KeeperHub MCP transport client for TypeScript agent plugins",
+  "description": "Official KeeperHub MCP HTTP transport client — session bootstrap, tools/call, 401/404 re-init, API key helpers",
   "type": "module",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
@@ -12,7 +12,7 @@
     },
     "./package.json": "./package.json"
   },
-  "files": ["dist", "README.md", "package.json"],
+  "files": ["dist", "README.md"],
   "scripts": {
     "build": "tsc -p tsconfig.json",
     "test": "bun test",
@@ -20,11 +20,7 @@
   },
   "license": "MIT",
   "author": "KeeperHub",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/Bleyle823/Keepers-Eliza-Plugin.git",
-    "directory": "packages/mcp-client"
-  },
+  "keywords": ["keeperhub", "mcp", "model-context-protocol", "workflow", "web3"],
   "publishConfig": {
     "access": "public"
   },

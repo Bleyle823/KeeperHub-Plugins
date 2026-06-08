@@ -7,8 +7,8 @@ import logging
 import re
 from typing import Any, Callable
 
-from keeperhub_mcp_client import KeeperHubMcpClient, get_client
-from keeperhub_mcp_client import mask_api_key
+from keeperhub_mcp import KeeperHubMcpClient, get_client
+from keeperhub_mcp import mask_api_key
 
 from keeperhub_plugin.config import get_api_key_kind_warning, resolve_api_key
 

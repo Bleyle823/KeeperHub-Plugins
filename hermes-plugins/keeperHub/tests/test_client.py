@@ -1,8 +1,8 @@
-"""Smoke test: Hermes plugin uses keeperhub-mcp-client."""
+"""Smoke test: Hermes plugin uses keeperhub-mcp."""
 
 import pytest
 
-from keeperhub_mcp_client import KeeperHubMcpClient, classify_api_key
+from keeperhub_mcp import KeeperHubMcpClient, classify_api_key
 
 
 def test_classify_org_key():

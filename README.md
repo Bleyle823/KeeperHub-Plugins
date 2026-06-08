@@ -86,8 +86,8 @@ Five successful **Base Sepolia** transfers from that pattern are visible on [Bas
 
 ```
 ├── packages/
-│   ├── mcp-client/                 # @keeperhub/mcp-client (npm) — official MCP transport
-│   └── keeperhub-mcp-client/       # keeperhub-mcp-client (PyPI) — Python port
+│   ├── mcp-client/                 # (deprecated vendored copy — use @keeperhub/mcp from npm)
+│   └── keeperhub-mcp/              # keeperhub-mcp (PyPI) — Python port
 ├── plugin-keeperHub/              # @keeperhub/eliza-plugin (npm)
 ├── openclaw-plugins/
 │   └── keeperHub/                 # @keeperhub/openclaw-plugin (npm / ClawHub)
@@ -108,7 +108,7 @@ Run platform tooling from an [ElizaOS](https://github.com/elizaos/eliza), [OpenC
 **This repo (MCP clients + plugin packages):**
 
 - **[Bun](https://bun.sh/docs/installation)** for TypeScript packages (`bun install` at repo root)
-- **Python 3.9+** for Hermes plugin and `keeperhub-mcp-client` tests
+- **Python 3.9+** for Hermes plugin and `keeperhub-mcp` tests
 
 **ElizaOS (`@keeperhub/eliza-plugin`):** an ElizaOS runtime that provides **`@elizaos/core`** (peer dependency). See [docs.elizaos.ai](https://docs.elizaos.ai/).
 
@@ -127,14 +127,14 @@ git clone https://github.com/Bleyle823/Keepers-Eliza-Plugin.git
 cd Keepers-Eliza-Plugin
 
 bun install
-bun run build:mcp-client
+# MCP transport: @keeperhub/mcp from npm (see KeeperHub/mcp repo)
 bun test
 ```
 
 Root scripts (see [`package.json`](package.json)):
 
 ```bash
-bun run test:mcp-client      # @keeperhub/mcp-client
+# @keeperhub/mcp tests live in https://github.com/KeeperHub/mcp
 bun run test:openclaw        # @keeperhub/openclaw-plugin
 bun run test:eliza-plugin    # @keeperhub/eliza-plugin
 bun run build:eliza-plugin   # build Eliza plugin dist/
@@ -143,7 +143,7 @@ bun run build:eliza-plugin   # build Eliza plugin dist/
 Hermes and Python MCP client (from repo root):
 
 ```bash
-cd packages/keeperhub-mcp-client && pip install -e ".[dev]" && pytest
+cd packages/keeperhub-mcp && pip install -e ".[dev]" && pytest
 cd ../../hermes-plugins/keeperHub && pip install -e ".[dev]" && pytest
 ```
 
@@ -170,7 +170,7 @@ git sparse-checkout init --cone
 git sparse-checkout set openclaw-plugins/keeperHub
 # git sparse-checkout set hermes-plugins/keeperHub
 # git sparse-checkout set plugin-keeperHub
-# git sparse-checkout set packages/mcp-client
+# git sparse-checkout set plugin-keeperHub openclaw-plugins/keeperHub
 git checkout main
 ```
 
@@ -188,7 +188,7 @@ npm publish --access public
 
 Consumers install with `bun add @keeperhub/eliza-plugin` / `npm install @keeperhub/eliza-plugin`.
 
-If you vendor this package inside a full [ElizaOS](https://github.com/elizaos/eliza) monorepo, copy or symlink `plugin-keeperHub` to `packages/plugin-keeperHub` and use `workspace:*` for `@keeperhub/mcp-client` there.
+If you vendor this package inside a full [ElizaOS](https://github.com/elizaos/eliza) monorepo, copy or symlink `plugin-keeperHub` to `packages/plugin-keeperHub` and use `@keeperhub/mcp` from npm there.
 
 ### Publish OpenClaw (npm / ClawHub)
 
@@ -241,7 +241,7 @@ Never commit real keys. Use `.env` / your host’s secret store. The repo root [
 
 **1. Path dependency (this repo)**
 
-The package lives at [`plugin-keeperHub`](plugin-keeperHub). From the repo root, `bun install` links it with `@keeperhub/mcp-client` via workspaces. In your ElizaOS project, depend on the folder or on the published npm package.
+The package lives at [`plugin-keeperHub`](plugin-keeperHub). From the repo root, `bun install` resolves `@keeperhub/mcp` from npm. In your ElizaOS project, depend on the folder or on the published npm package.
 
 **2. Published NPM**
 

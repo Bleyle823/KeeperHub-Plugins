@@ -1,7 +1,7 @@
 import { Type, type Static } from '@sinclair/typebox';
 import type { OpenClawPluginApi } from 'openclaw/plugin-sdk/plugin-entry';
 
-import { getClient, getApiKeyKindWarning, maskApiKey } from '@keeperhub/mcp-client';
+import { getClient, getApiKeyKindWarning, maskApiKey } from '@keeperhub/mcp';
 
 import { resolveApiKey, SUPPORTED_ENV_VARS } from '../config.js';
 import { toToolText } from './_shared.js';

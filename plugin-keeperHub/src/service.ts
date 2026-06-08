@@ -3,7 +3,7 @@ import {
   KeeperHubMcpClient,
   resolveApiKey,
   type KeeperHubOrgContext,
-} from '@keeperhub/mcp-client';
+} from '@keeperhub/mcp';
 
 const PLUGIN_CLIENT_NAME = '@keeperhub/eliza-plugin';
 const PLUGIN_CLIENT_VERSION = '1.0.0';

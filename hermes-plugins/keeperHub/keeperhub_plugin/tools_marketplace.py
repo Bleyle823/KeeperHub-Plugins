@@ -5,7 +5,7 @@ from __future__ import annotations
 import logging
 from typing import Any
 
-from keeperhub_mcp_client import get_client
+from keeperhub_mcp import get_client
 
 from keeperhub_plugin.config import get_api_key_kind_warning, resolve_api_key
 from keeperhub_plugin.tools_shared import CLIENT_NAME, CLIENT_VERSION

@@ -1,7 +1,14 @@
-const MCP_URL = 'https://app.keeperhub.com/mcp';
-const MCP_PROTOCOL_VERSION = '2024-11-05';
-const DEFAULT_CLIENT_NAME = '@keeperhub/mcp-client';
-const DEFAULT_CLIENT_VERSION = '1.0.0';
+/**
+ * KeeperHub MCP HTTP transport client.
+ *
+ * Maintains a single MCP session per client instance. Lazily opens the session
+ * on the first tool call. Re-initializes on 401 or 404 with a session-related body.
+ */
+
+import { classifyApiKey, validateApiKeyForMcp, type ApiKeyKind } from './keys.js';
+
+export const DEFAULT_MCP_URL = 'https://app.keeperhub.com/mcp';
+export const MCP_PROTOCOL_VERSION = '2024-11-05';
 
 export interface KeeperHubOrgContext {
   orgId: string | null;
@@ -20,21 +27,24 @@ export interface ClientLogger {
   error?(...args: unknown[]): void;
 }
 
-export interface ClientInfo {
-  name: string;
-  version: string;
-}
-
 export interface KeeperHubMcpClientOptions {
   apiKey: string;
+  baseUrl?: string;
+  clientInfo?: { name: string; version: string };
   logger?: ClientLogger;
-  clientInfo?: ClientInfo;
+  /** Inject for tests; defaults to global `fetch`. */
+  fetchFn?: typeof fetch;
 }
 
 export class KeeperHubMcpClient {
   readonly apiKey: string;
+  readonly apiKeyKind: ApiKeyKind;
+
+  private readonly baseUrl: string;
+  private readonly clientInfo: { name: string; version: string };
   private readonly logger: ClientLogger;
-  private readonly clientInfo: ClientInfo;
+  private readonly fetchFn: typeof fetch;
+
   private sessionId: string | null = null;
   private requestId = 0;
   orgContext: KeeperHubOrgContext = { orgId: null, workflowCount: 0 };
@@ -44,12 +54,16 @@ export class KeeperHubMcpClient {
     if (!apiKey) {
       throw new Error('KeeperHubMcpClient requires a non-empty apiKey');
     }
+    validateApiKeyForMcp(apiKey);
     this.apiKey = apiKey;
-    this.logger = options.logger ?? console;
+    this.apiKeyKind = classifyApiKey(apiKey);
+    this.baseUrl = options.baseUrl ?? DEFAULT_MCP_URL;
     this.clientInfo = options.clientInfo ?? {
-      name: DEFAULT_CLIENT_NAME,
-      version: DEFAULT_CLIENT_VERSION,
+      name: '@keeperhub/mcp-client',
+      version: '1.0.0',
     };
+    this.logger = options.logger ?? console;
+    this.fetchFn = options.fetchFn ?? fetch;
   }
 
   async callTool(name: string, args: Record<string, unknown> = {}): Promise<unknown> {
@@ -86,7 +100,7 @@ export class KeeperHubMcpClient {
         list.length > 0 ? ((list[0]?.organizationId as string | undefined) ?? null) : null;
       this.orgContext = { orgId, workflowCount: list.length };
     } catch {
-      // Non-fatal; context stays whatever it was.
+      // Non-fatal
     }
     return this.orgContext;
   }
@@ -109,7 +123,7 @@ export class KeeperHubMcpClient {
       },
     };
 
-    const res = await fetch(MCP_URL, {
+    const res = await this.fetchFn(this.baseUrl, {
       method: 'POST',
       headers: this.headers(),
       body: JSON.stringify(body),
@@ -129,7 +143,7 @@ export class KeeperHubMcpClient {
   private async postMcp(body: object): Promise<unknown> {
     if (!this.sessionId) throw new Error('No active MCP session');
 
-    const res = await fetch(MCP_URL, {
+    const res = await this.fetchFn(this.baseUrl, {
       method: 'POST',
       headers: { ...this.headers(), 'mcp-session-id': this.sessionId },
       body: JSON.stringify(body),
@@ -172,26 +186,32 @@ export class KeeperHubMcpClient {
   }
 }
 
-/** @deprecated Use KeeperHubMcpClient */
-export type KeeperHubClient = KeeperHubMcpClient;
+/** @deprecated Alias for {@link KeeperHubMcpClient}. */
+export const KeeperHubClient = KeeperHubMcpClient;
 
 export interface GetClientOptions {
   logger?: ClientLogger;
-  clientInfo?: ClientInfo;
+  clientInfo?: { name: string; version: string };
+  baseUrl?: string;
+  fetchFn?: typeof fetch;
 }
 
 let cachedClient: KeeperHubMcpClient | null = null;
 let cachedKey: string | null = null;
 
-export function getClient(apiKey: string, options: GetClientOptions = {}): KeeperHubMcpClient {
-  const trimmed = apiKey.trim();
-  if (!cachedClient || cachedKey !== trimmed) {
+export function getClient(
+  apiKey: string,
+  options: GetClientOptions = {},
+): KeeperHubMcpClient {
+  if (!cachedClient || cachedKey !== apiKey) {
     cachedClient = new KeeperHubMcpClient({
-      apiKey: trimmed,
+      apiKey,
       logger: options.logger,
       clientInfo: options.clientInfo,
+      baseUrl: options.baseUrl,
+      fetchFn: options.fetchFn,
     });
-    cachedKey = trimmed;
+    cachedKey = apiKey;
   }
   return cachedClient;
 }

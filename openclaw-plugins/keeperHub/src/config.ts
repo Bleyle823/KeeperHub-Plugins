@@ -1,5 +1,5 @@
 /**
- * OpenClaw-specific config resolution — delegates key lookup to @keeperhub/mcp-client.
+ * OpenClaw-specific config resolution — delegates key lookup to @keeperhub/mcp.
  */
 
 import {
@@ -8,7 +8,7 @@ import {
   resolveApiKey as resolveApiKeyCore,
   SUPPORTED_ENV_VARS,
   type ApiKeySources,
-} from '@keeperhub/mcp-client';
+} from '@keeperhub/mcp';
 
 export interface ApiConfigSurface {
   pluginConfig?: Record<string, unknown>;
