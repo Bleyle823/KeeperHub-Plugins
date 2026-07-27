@@ -1,6 +1,6 @@
 #!/usr/bin/env bun
 /**
- * Self-contained build script for @keeperhub/eliza-plugin
+ * Self-contained build script for plugin-keeperhub
  */
 
 import { existsSync } from 'node:fs';
@@ -16,7 +16,7 @@ async function cleanBuild(outdir = 'dist') {
 
 async function build() {
   const start = performance.now();
-  console.log('🚀 Building @keeperhub/eliza-plugin...');
+  console.log('🚀 Building plugin-keeperhub...');
 
   try {
     await cleanBuild('dist');

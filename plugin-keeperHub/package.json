@@ -1,11 +1,11 @@
 {
-  "name": "@keeperhub/eliza-plugin",
-  "description": "KeeperHub workflow automation plugin for ElizaOS — wraps all KeeperHub MCP tools as agent actions",
+  "name": "plugin-keeperhub",
+  "description": "KeeperHub workflow automation for ElizaOS — manage workflows, DeFi protocols, on-chain execution, and AI-generated automations via KeeperHub MCP",
   "version": "1.0.0",
   "type": "module",
   "main": "dist/index.js",
   "module": "dist/index.js",
-  "types": "dist/index.d.ts",
+  "types": "dist/src/index.d.ts",
   "packageType": "plugin",
   "platform": "node",
   "license": "MIT",
@@ -13,6 +13,8 @@
   "keywords": [
     "plugin",
     "elizaos",
+    "elizaos-plugin",
+    "eliza-plugin",
     "keeperhub",
     "workflow",
     "automation",
@@ -24,13 +26,14 @@
     "./package.json": "./package.json",
     ".": {
       "import": {
-        "types": "./dist/index.d.ts",
+        "types": "./dist/src/index.d.ts",
         "default": "./dist/index.js"
       }
     }
   },
   "files": [
     "dist",
+    "images",
     "README.md",
     "package.json"
   ],
@@ -45,11 +48,7 @@
     "@elizaos/core": "^1.7.2",
     "typescript": "^5.9.3"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/Bleyle823/Keepers-Eliza-Plugin.git",
-    "directory": "plugin-keeperHub"
-  },
+  "repository": "github:Bleyle823/Keepers-Eliza-Plugin",
   "scripts": {
     "build": "bun run build.ts",
     "build:watch": "bun run build.ts --watch",

@@ -1,4 +1,4 @@
-# @keeperhub/eliza-plugin
+# plugin-keeperhub
 
 KeeperHub workflow automation plugin for ElizaOS. Wraps the full KeeperHub MCP API as native agent actions so your ElizaOS agent can create, manage, and execute blockchain automation workflows through natural language.
 
@@ -16,7 +16,9 @@ KeeperHub workflow automation plugin for ElizaOS. Wraps the full KeeperHub MCP A
 ## Installation
 
 ```bash
-bun add @keeperhub/eliza-plugin
+bun add plugin-keeperhub
+# or
+elizaos plugins add plugin-keeperhub
 ```
 
 ## Configuration
@@ -34,7 +36,7 @@ Get an API key at [app.keeperhub.com](https://app.keeperhub.com) → Avatar → 
 Add the plugin to your agent:
 
 ```typescript
-import keeperhubPlugin from '@keeperhub/eliza-plugin';
+import keeperhubPlugin from 'plugin-keeperhub';
 
 const agent = new AgentRuntime({
   plugins: [keeperhubPlugin],

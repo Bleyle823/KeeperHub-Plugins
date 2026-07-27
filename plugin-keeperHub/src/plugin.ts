@@ -50,7 +50,7 @@ const configSchema = z.object({
 });
 
 export const keeperhubPlugin: Plugin = {
-  name: '@keeperhub/eliza-plugin',
+  name: 'plugin-keeperhub',
   description:
     'KeeperHub workflow automation for ElizaOS. Manage and execute KeeperHub workflows, monitor smart contracts, interact with DeFi protocols, and automate on-chain actions via the KeeperHub MCP server.',
 
@@ -59,7 +59,7 @@ export const keeperhubPlugin: Plugin = {
   },
 
   async init(config: Record<string, string>) {
-    logger.info('[KeeperHub] Initializing @keeperhub/eliza-plugin');
+    logger.info('[KeeperHub] Initializing plugin-keeperhub');
     try {
       const validated = await configSchema.parseAsync(config);
       if (validated.KH_API_KEY) {

@@ -4,7 +4,7 @@ import { KeeperHubService } from '../service.ts';
 
 export function getService(runtime: IAgentRuntime): KeeperHubService {
   const svc = runtime.getService(KeeperHubService.serviceType) as KeeperHubService | null;
-  if (!svc) throw new Error('KeeperHubService is not running. Add @keeperhub/eliza-plugin to your agent.');
+  if (!svc) throw new Error('KeeperHubService is not running. Add plugin-keeperhub to your agent.');
   if (!svc.isReady()) throw new Error('KH_API_KEY is not configured for KeeperHub.');
   return svc;
 }

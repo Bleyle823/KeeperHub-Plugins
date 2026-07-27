@@ -5,7 +5,7 @@ import {
   type KeeperHubOrgContext,
 } from '@keeperhub/mcp';
 
-const PLUGIN_CLIENT_NAME = '@keeperhub/eliza-plugin';
+const PLUGIN_CLIENT_NAME = 'plugin-keeperhub';
 const PLUGIN_CLIENT_VERSION = '1.0.0';
 
 function getKeeperHubApiKey(runtime: IAgentRuntime): string | null {
