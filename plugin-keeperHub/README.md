@@ -1,3 +1,5 @@
+![KeeperHub](images/banner.jpg)
+
 # plugin-keeperhub
 
 KeeperHub workflow automation plugin for ElizaOS. Wraps the full KeeperHub MCP API as native agent actions so your ElizaOS agent can create, manage, and execute blockchain automation workflows through natural language.
