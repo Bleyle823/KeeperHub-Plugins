@@ -1,4 +1,4 @@
-![KeeperHub](images/banner.jpg)
+![KeeperHub](images/readme-banner.png)
 
 # plugin-keeperhub
 
